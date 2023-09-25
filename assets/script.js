@@ -25,23 +25,30 @@ let arrowRight=document.querySelector(".arrow_right");
 let arrowLeft=document.querySelector(".arrow_left");
 let bannerImg=document.querySelector(".banner-img");
 let bannerTagLine=document.querySelector("#banner p");
-
-// création des dots //
 let dots=document.querySelector(".dots");
-//
 
-function setDots (index) {
+// Event listener
 
-	// remove child
+arrowLeft.addEventListener("click", function () {
+	slide(-1);
+})
+arrowRight.addEventListener("click", function () {
+	slide(+1);
+})
+
+// functions 
+
+function addDots (activePageNumber) {
+
+	// reset
 	while (dots.lastElementChild) {
 		dots.removeChild(dots.lastElementChild);
 	  }
 
 	//boucle pour ajouter les dots
 	for (let j=0; j<n ;j++) {
-		console.log(j);
 		let dot=document.createElement("div");
-			if (j===index-1) {
+			if (j===activePageNumber-1) {
 				dot.setAttribute("class","dot dot_selected");
 			}
 			else {dot.setAttribute("class","dot");}	
@@ -49,24 +56,12 @@ function setDots (index) {
 	}
 }
 
-// left click
-arrowLeft.addEventListener("click", function () {
-	slide(-1);
-})
-// right click
-arrowRight.addEventListener("click", function () {
-	slide(+1);
-})
-
-
-
-
 function slide (index) {
 	i=i+index;
 	infinite(i);
 	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[i-1].image);
 	bannerTagLine.innerHTML=(slides[i-1].tagLine);
-	setDots(i);
+	addDots(i);
 }
 
 function infinite(index) {
@@ -85,8 +80,7 @@ function infinite(index) {
 
 
 function main () {
-	setDots(i);
-
+	addDots(i);
 }
 
 main();
