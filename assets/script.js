@@ -18,59 +18,90 @@ const slides = [
 ]
 
 
-let n=slides.length;
-let i=4;
-let arrowRight=document.querySelector(".arrow_right");
-let bannerImg=document.querySelector(".banner-img");
-let bannerTagLine=document.getElementById("#banner");
+let n=slides.length; // =4
+let i=1;
 
+let arrowRight=document.querySelector(".arrow_right");
+let arrowLeft=document.querySelector(".arrow_left");
+let bannerImg=document.querySelector(".banner-img");
+let bannerTagLine=document.querySelector("#banner p");
 
 // création des dots //
 let dots=document.querySelector(".dots");
 //
 
+function setDots (index) {
 
-let arrowLeft=document.querySelector(".arrow_left");
+	// remove child
+	while (dots.lastElementChild) {
+		dots.removeChild(dots.lastElementChild);
+	  }
 
-// left click
-arrowLeft.addEventListener("click", slideLeft ()) {
-	console.log("Vous avez cliqué sur la fleche gauche")
-};
-
-function slideLeft (index) {
-	i=i-1;
-	
-
-};
-
-
-// right click
-
-arrowLeft.oncontextmenu= function () {
-	console.log("right click");
-	return false; //désactive le right click par défaut
+	//boucle pour ajouter les dots
+	for (let j=0; j<n ;j++) {
+		console.log(j);
+		let dot=document.createElement("div");
+			if (j===index-1) {
+				dot.setAttribute("class","dot dot_selected");
+			}
+			else {dot.setAttribute("class","dot");}	
+		dots.appendChild(dot);
+	}
 }
 
-document.addEventListener('keypress', (event) => {
-    console.log(event.key);
-});
+// left click
+arrowLeft.addEventListener("click", function () {
+	slide(-1);
+})
+// right click
+arrowRight.addEventListener("click", function () {
+	slide(+1);
+})
 
 
 
-let div=`
-	<div class="dot"></div>
-	<div class="dot"></div>
-	<div class="dot dot_selected"></div>
-	`;
 
-dots.innerHTML=div;
+function slide (index) {
+	i=i+index;
+	infinite(i);
+	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[i-1].image);
+	bannerTagLine.innerHTML=(slides[i-1].tagLine);
+	setDots(i);
+}
+
+function infinite(index) {
+	switch (index) {
+		case 0:
+			i=n
+			break
+		case n+1:
+			i=1
+			break
+		default:
+			break
+		return i
+	}
+}
 
 
-//changer l'image de fond //
-bannerImg.setAttribute("src","./assets/images/slideshow/slide2.jpg");
+function main () {
+	setDots(i);
 
-// bannerTagLine.innerHTML("test");
+}
+
+main();
 
 
 
-console.log(dots);
+
+// // right click
+
+// arrowLeft.oncontextmenu= function () {
+// 	console.log("right click");
+// 	return false; //désactive le right click par défaut
+// }
+
+// document.addEventListener('keypress', (event) => {
+//     console.log(event.key);
+// });
+
