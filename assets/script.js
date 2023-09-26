@@ -18,14 +18,14 @@ const slides = [
 ]
 
 
-let n=slides.length; // =4
+const n=slides.length; // =4
 let i=1;
 
-let arrowRight=document.querySelector(".arrow_right");
-let arrowLeft=document.querySelector(".arrow_left");
-let bannerImg=document.querySelector(".banner-img");
-let bannerTagLine=document.querySelector("#banner p");
-let dots=document.querySelector(".dots");
+const arrowRight=document.querySelector(".arrow_right");
+const arrowLeft=document.querySelector(".arrow_left");
+const bannerImg=document.querySelector(".banner-img");
+const bannerTagLine=document.querySelector("#banner p");
+const dots=document.querySelector(".dots");
 
 // Event listener
 
@@ -35,6 +35,7 @@ arrowLeft.addEventListener("click", function () {
 arrowRight.addEventListener("click", function () {
 	slide(+1);
 })
+
 
 // functions 
 
