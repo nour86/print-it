@@ -27,7 +27,7 @@ const bannerImg=document.querySelector(".banner-img");
 const bannerTagLine=document.querySelector("#banner p");
 const dots=document.querySelector(".dots");
 
-// Event listener
+// Event listener sur les flèches
 
 arrowLeft.addEventListener("click", function () {
 	slide(-1);
@@ -39,31 +39,50 @@ arrowRight.addEventListener("click", function () {
 
 // functions 
 
-function addDots (activePageNumber) {
 
-	// reset
-	while (dots.lastElementChild) {
-		dots.removeChild(dots.lastElementChild);
-	  }
+function createDots () {
 
-	//boucle pour ajouter les dots
-	for (let j=0; j<n ;j++) {
-		let dot=document.createElement("div");
-			if (j===activePageNumber-1) {
-				dot.setAttribute("class","dot dot_selected");
-			}
-			else {dot.setAttribute("class","dot");}	
-		dots.appendChild(dot);
+	for (let j=1; j<=n ;j++) {
+		const dot=document.createElement("div"); //on créé les div dots
+		dot.setAttribute("class","dot");
+
+		let id=`dot_${j}`; // on leur ajoute des Id pour les appeler plus facilement
+		dot.setAttribute("id",id);
+		
+		dot.addEventListener("click", function(){ // au clic sur un dot, celui-ci est activé (class dot_activated) le Content (img, text) et l'index sont modifiés.
+			i=j;
+			activateDot(j);
+			changeContent(j);
+			console.log(i);
+			return i;
+		})
+		dots.appendChild(dot); // les dots sont ajoutés à la div principale
 	}
 }
+
+function changeContent (index) {
+	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[index-1].image);
+	bannerTagLine.innerHTML=(slides[index-1].tagLine);
+}
+
+
+function activateDot (activePage) {
+	let active=`dot_${activePage}`;
+	activeDot=document.getElementById(active);
+	activeDot.setAttribute("class","dot dot_selected");
+}
+
+
+// slide //
 
 function slide (index) {
 	i=i+index;
 	infinite(i);
-	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[i-1].image);
-	bannerTagLine.innerHTML=(slides[i-1].tagLine);
-	addDots(i);
+	console.log(i);
+	changeContent(i);
+	activateDot(i);
 }
+
 
 function infinite(index) {
 	switch (index) {
@@ -81,22 +100,11 @@ function infinite(index) {
 
 
 function main () {
-	addDots(i);
+	createDots(n);
+	activateDot(1);
+	console.log(dots);
+
+	// addDots(i);
 }
 
 main();
-
-
-
-
-// // right click
-
-// arrowLeft.oncontextmenu= function () {
-// 	console.log("right click");
-// 	return false; //désactive le right click par défaut
-// }
-
-// document.addEventListener('keypress', (event) => {
-//     console.log(event.key);
-// });
-
