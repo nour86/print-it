@@ -49,10 +49,11 @@ function createDots () {
 		let id=`dot_${j}`; // on leur ajoute des Id pour les appeler plus facilement
 		dot.setAttribute("id",id);
 		
-		dot.addEventListener("click", function(){ // au clic sur un dot, celui-ci est activé (class dot_activated) le Content (img, text) et l'index sont modifiés.
-			i=j;
+		dot.addEventListener("click", function(){ // au clic sur un dot, celui-ci est activé (class dot_activated) le Content (img, text) et l'index sont modifiés.			
+			disableDot(i); // index précédent
 			activateDot(j);
 			changeContent(j);
+			i=j; // nouvel index
 			console.log(i);
 			return i;
 		})
@@ -66,16 +67,23 @@ function changeContent (index) {
 }
 
 
-function activateDot (activePage) {
+function activateDot (activePage) { //ajout de la class dot_selected 
 	let active=`dot_${activePage}`;
 	activeDot=document.getElementById(active);
 	activeDot.setAttribute("class","dot dot_selected");
+}
+
+function disableDot (lastPage) { //retrait de la class dot_selected de la dernière page
+	let lastActive=`dot_${lastPage}`;
+		lastActiveDot=document.getElementById(lastActive);
+		lastActiveDot.setAttribute("class","dot");
 }
 
 
 // slide //
 
 function slide (index) {
+	disableDot(i);
 	i=i+index;
 	infinite(i);
 	console.log(i);
