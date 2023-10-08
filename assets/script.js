@@ -57,11 +57,13 @@ function createDots () {
 	}
 }
 
-function changePage(index,increment){ // prend en argument soit un index, soit un increment (+1 ou -1) => nouvel index.
+function changePage(newPage,increment){ // prend en argument soit un index, soit un increment (+1 ou -1) => nouvel index.
 
 	let lastPage=activePage; // variable non nécessaire mais pour plus de lisibilité du code
 	disableDot(lastPage);
-	activePage=index+increment;
+
+	activePage=newPage+increment;
+
 	infinite(activePage); // on s'assure que l'index activePage n'est pas hors des limites.
 	activateDot(activePage);
 	changeContent(activePage);
@@ -93,19 +95,9 @@ function disableDot (lastPage) { //retrait de la class dot_selected de la derni�
 
 
 function infinite(index) {
-	switch (index) {
-		case 0:
-			activePage=n
-			break
-		case slidesLength+1:
-			activePage=1
-			break
-		default:
-			break
-		return activePage
-	}
+	index <= 0 ? activePage=4 : index > slidesLength ? activePage=1 : activePage=index;
+	return activePage;
 }
-
 
 function main () {
 	createDots(slidesLength);
