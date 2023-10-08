@@ -17,10 +17,10 @@ const slides = [
 	}
 ]
 
+// constantes
 
 const slidesLength=slides.length; // =4
 let activePage=1;
-let increment=0;
 
 const arrowRight=document.querySelector(".arrow_right");
 const arrowLeft=document.querySelector(".arrow_left");
@@ -37,9 +37,7 @@ arrowRight.addEventListener("click", function () {
 	changePage(activePage,+1);
 })
 
-
-// functions 
-
+// functions
 
 function createDots () {
 
@@ -70,12 +68,10 @@ function changePage(newPage,increment){ // prend en argument soit un index, soit
 	return activePage;
 }
 
-
 function changeContent (index) {
 	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[index-1].image);
 	bannerTagLine.innerHTML=(slides[index-1].tagLine);
 }
-
 
 function activateDot (activePage) { //ajout de la class dot_selected 
 	let active=`dot_${activePage}`;
@@ -88,11 +84,6 @@ function disableDot (lastPage) { //retrait de la class dot_selected de la derni√
 		lastActiveDot=document.getElementById(lastActive);
 		lastActiveDot.setAttribute("class","dot");
 }
-
-
-// slide //
-
-
 
 function infinite(index) {
 	index <= 0 ? activePage=4 : index > slidesLength ? activePage=1 : activePage=index;
