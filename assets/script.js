@@ -86,9 +86,9 @@ function slide (index) {
 	disableDot(i);
 	i=i+index;
 	infinite(i);
-	console.log(i);
 	changeContent(i);
 	activateDot(i);
+	console.log(i);
 }
 
 
@@ -110,9 +110,6 @@ function infinite(index) {
 function main () {
 	createDots(n);
 	activateDot(1);
-	console.log(dots);
-
-	// addDots(i);
 }
 
 main();
