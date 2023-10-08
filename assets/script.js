@@ -18,8 +18,9 @@ const slides = [
 ]
 
 
-const n=slides.length; // =4
-let i=1;
+const slidesLength=slides.length; // =4
+let activePage=1;
+let increment=0;
 
 const arrowRight=document.querySelector(".arrow_right");
 const arrowLeft=document.querySelector(".arrow_left");
@@ -29,11 +30,11 @@ const dots=document.querySelector(".dots");
 
 // Event listener sur les flèches
 
-arrowLeft.addEventListener("click", function () {
-	slide(-1);
+arrowLeft.addEventListener("click", function(){
+	changePage(activePage,-1);
 })
 arrowRight.addEventListener("click", function () {
-	slide(+1);
+	changePage(activePage,+1);
 })
 
 
@@ -42,7 +43,7 @@ arrowRight.addEventListener("click", function () {
 
 function createDots () {
 
-	for (let j=1; j<=n ;j++) {
+	for (let j=1; j<=slidesLength ;j++) {
 		const dot=document.createElement("div"); //on créé les div dots
 		dot.setAttribute("class","dot");
 
@@ -50,16 +51,23 @@ function createDots () {
 		dot.setAttribute("id",id);
 		
 		dot.addEventListener("click", function(){ // au clic sur un dot, celui-ci est activé (class dot_activated) le Content (img, text) et l'index sont modifiés.			
-			disableDot(i); // index précédent
-			activateDot(j);
-			changeContent(j);
-			i=j; // nouvel index
-			console.log(i);
-			return i;
+			changePage(j,0);
 		})
 		dots.appendChild(dot); // les dots sont ajoutés à la div principale
 	}
 }
+
+function changePage(index,increment){ // prend en argument soit un index, soit un increment (+1 ou -1) => nouvel index.
+
+	let lastPage=activePage; // variable non nécessaire mais pour plus de lisibilité du code
+	disableDot(lastPage);
+	activePage=index+increment;
+	infinite(activePage); // on s'assure que l'index activePage n'est pas hors des limites.
+	activateDot(activePage);
+	changeContent(activePage);
+	return activePage;
+}
+
 
 function changeContent (index) {
 	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[index-1].image);
@@ -82,33 +90,25 @@ function disableDot (lastPage) { //retrait de la class dot_selected de la derni�
 
 // slide //
 
-function slide (index) {
-	disableDot(i);
-	i=i+index;
-	infinite(i);
-	changeContent(i);
-	activateDot(i);
-	console.log(i);
-}
 
 
 function infinite(index) {
 	switch (index) {
 		case 0:
-			i=n
+			activePage=n
 			break
-		case n+1:
-			i=1
+		case slidesLength+1:
+			activePage=1
 			break
 		default:
 			break
-		return i
+		return activePage
 	}
 }
 
 
 function main () {
-	createDots(n);
+	createDots(slidesLength);
 	activateDot(1);
 }
 
