@@ -22,23 +22,22 @@ const slides = [
 let activePage=1;
 const slideLength=slides.length;
 
-const banner=document.getElementById("banner");
+
 const bannerImg=document.querySelector(".banner-img");
 const bannerTagLine=document.querySelector("#banner p");
-const dots=document.querySelector(".dots");
+
 
 
 
 // création des fleches
 
+const banner=document.getElementById("banner");
+
 function createArrows(){
-
-
 	const arrow_left=document.createElement("img");
 	arrow_left.setAttribute("class","arrow arrow_left");
 	arrow_left.setAttribute ("src","./assets/images/arrow_left.png");
 	arrow_left.setAttribute ("alt","fleche gauche");
-	
 	banner.appendChild(arrow_left);
 	const arrowLeft=document.querySelector(".arrow_left");
 
@@ -46,12 +45,10 @@ function createArrows(){
 	arrow_right.setAttribute("class","arrow arrow_right");
 	arrow_right.setAttribute ("src","./assets/images/arrow_right.png");
 	arrow_right.setAttribute ("alt","fleche droite");
-	
 	banner.appendChild(arrow_right);
 	const arrowRight=document.querySelector(".arrow_right");
 
 	// Event listener sur les flèches
-
 	arrowLeft.addEventListener("click", function () {
 		changePage("toLeft");
 	})
@@ -60,6 +57,8 @@ function createArrows(){
 	})
 
 }
+
+const dots=document.querySelector(".dots");
 
 function createDots () {
 
@@ -71,7 +70,7 @@ function createDots () {
 		dot.setAttribute("id",id);
 		
 		dot.addEventListener("click", function(){ // au clic sur un dot, celui-ci est activé (class dot_activated) le Content (img, text) et l'index sont modifiés.			
-			changePage(j,0);
+			changePage(j);
 		})
 		dots.appendChild(dot); // les dots sont ajoutés à la div principale
 	}
@@ -79,26 +78,15 @@ function createDots () {
 
 function changePage(index){ //
 
-	let lastPage=activePage; // variable non nécessaire mais pour plus de lisibilité du code
+	let lastPage=activePage;
 	disableDot(lastPage);
 
 	index === "toLeft" ? activePage-=1 : index === "toRight" ? activePage+=1 : activePage=index;
 
-	infinite(activePage); // on s'assure que l'index activePage n'est pas hors des limites.
+	infinite(activePage);
 	activateDot(activePage);
 	changeContent(activePage);
 	return activePage;
-}
-
-function changeContent (index) {
-	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[index-1].image);
-	bannerTagLine.innerHTML=(slides[index-1].tagLine);
-}
-
-function activateDot (activePage) { //ajout de la class dot_selected 
-	let active=`dot_${activePage}`;
-	activeDot=document.getElementById(active);
-	activeDot.setAttribute("class","dot dot_selected");
 }
 
 function disableDot (lastPage) { //retrait de la class dot_selected de la dernière page
@@ -111,6 +99,19 @@ function infinite(index) {
 	index <= 0 ? activePage=slideLength : index > slideLength ? activePage=1 : activePage=index;
 	return activePage;
 }
+
+function activateDot (activePage) { //ajout de la class dot_selected 
+	let active=`dot_${activePage}`;
+	activeDot=document.getElementById(active);
+	activeDot.setAttribute("class","dot dot_selected");
+}
+
+function changeContent (index) {
+	bannerImg.setAttribute("src","./assets/images/slideshow/"+slides[index-1].image);
+	bannerTagLine.innerHTML=(slides[index-1].tagLine);
+}
+
+
 
 function main () {
 	createArrows();
