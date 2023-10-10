@@ -19,29 +19,51 @@ const slides = [
 
 // constantes
 
-const slidesLength=slides.length; // =4
 let activePage=1;
+const slideLength=slides.length;
 
-const arrowRight=document.querySelector(".arrow_right");
-const arrowLeft=document.querySelector(".arrow_left");
+const banner=document.getElementById("banner");
 const bannerImg=document.querySelector(".banner-img");
 const bannerTagLine=document.querySelector("#banner p");
 const dots=document.querySelector(".dots");
 
-// Event listener sur les flèches
 
-arrowLeft.addEventListener("click", function(){
-	changePage(activePage,-1);
-})
-arrowRight.addEventListener("click", function () {
-	changePage(activePage,+1);
-})
 
-// functions
+// création des fleches
+
+function createArrows(){
+
+
+	const arrow_left=document.createElement("img");
+	arrow_left.setAttribute("class","arrow arrow_left");
+	arrow_left.setAttribute ("src","./assets/images/arrow_left.png");
+	arrow_left.setAttribute ("alt","fleche gauche");
+	
+	banner.appendChild(arrow_left);
+	const arrowLeft=document.querySelector(".arrow_left");
+
+	const arrow_right=document.createElement("img");
+	arrow_right.setAttribute("class","arrow arrow_right");
+	arrow_right.setAttribute ("src","./assets/images/arrow_right.png");
+	arrow_right.setAttribute ("alt","fleche droite");
+	
+	banner.appendChild(arrow_right);
+	const arrowRight=document.querySelector(".arrow_right");
+
+	// Event listener sur les flèches
+
+	arrowLeft.addEventListener("click", function () {
+		changePage("toLeft");
+	})
+	arrowRight.addEventListener("click", function () {
+		changePage("toRight");
+	})
+
+}
 
 function createDots () {
 
-	for (let j=1; j<=slidesLength ;j++) {
+	for (let j=1; j<=slideLength ;j++) {
 		const dot=document.createElement("div"); //on créé les div dots
 		dot.setAttribute("class","dot");
 
@@ -55,12 +77,12 @@ function createDots () {
 	}
 }
 
-function changePage(newPage,increment){ // prend en argument soit un index, soit un increment (+1 ou -1) => nouvel index.
+function changePage(index){ //
 
 	let lastPage=activePage; // variable non nécessaire mais pour plus de lisibilité du code
 	disableDot(lastPage);
 
-	activePage=newPage+increment;
+	index === "toLeft" ? activePage-=1 : index === "toRight" ? activePage+=1 : activePage=index;
 
 	infinite(activePage); // on s'assure que l'index activePage n'est pas hors des limites.
 	activateDot(activePage);
@@ -86,12 +108,13 @@ function disableDot (lastPage) { //retrait de la class dot_selected de la derni�
 }
 
 function infinite(index) {
-	index <= 0 ? activePage=4 : index > slidesLength ? activePage=1 : activePage=index;
+	index <= 0 ? activePage=slideLength : index > slideLength ? activePage=1 : activePage=index;
 	return activePage;
 }
 
 function main () {
-	createDots(slidesLength);
+	createArrows();
+	createDots(slideLength);
 	activateDot(1);
 }
 
